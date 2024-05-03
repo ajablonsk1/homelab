@@ -1,0 +1,5 @@
+# {{ title }}
+
+timestamp: {{ date }}
+
+content:
