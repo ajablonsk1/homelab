@@ -1,5 +1,5 @@
 # {{ title }}
 
-Timestamp: {{ date }}
+Timestamp: {{ timestamp }}
 
 Content:

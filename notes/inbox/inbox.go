@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/ajablonsk1/homelab/notes/note"
+	"github.com/flosch/pongo2/v6"
 )
 
 const (
@@ -26,6 +27,6 @@ func main() {
 	noteName := timestamp + " - " + title + ".md"
 	relativeNotePath := inboxDir + "/" + noteName
 
-	note.Create(relativeNotePath, templatePath, timestamp, title)
+	note.Create(relativeNotePath, templatePath, pongo2.Context{"title": title, "timestamp": timestamp})
 	note.Open(relativeNotePath)
 }

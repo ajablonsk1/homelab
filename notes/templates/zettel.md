@@ -1,6 +1,6 @@
 # {{ title }}
 
-Timestamp: {{ date }}
+Timestamp: {{ timestamp }}
 
 Status:
 

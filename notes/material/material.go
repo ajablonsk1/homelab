@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/ajablonsk1/homelab/notes/note"
+	"github.com/flosch/pongo2/v6"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
@@ -21,7 +22,7 @@ func checkMaterialType(materialType string) error {
 	case "Article", "Book", "Podcast", "Video":
 		return nil
 	default:
-		return fmt.Errorf("Material type must be: Article | Book | Podcast | Video")
+		return fmt.Errorf("material type must be: Article | Book | Podcast | Video")
 	}
 }
 
@@ -47,6 +48,6 @@ func main() {
 	noteName := title + ".md"
 	relativeNotePath := fmt.Sprintf("%s/%s/%s", materialDir, materialType, noteName)
 
-	note.Create(relativeNotePath, templatePath, timestamp, title)
+	note.Create(relativeNotePath, templatePath, pongo2.Context{"title": title, "timestamp": timestamp})
 	note.Open(relativeNotePath)
 }
