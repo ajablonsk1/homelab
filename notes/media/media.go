@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/ajablonsk1/homelab/notes/config"
 	"github.com/ajablonsk1/homelab/notes/note"
 	"github.com/flosch/pongo2/v6"
 	"golang.org/x/text/cases"
@@ -13,40 +14,42 @@ import (
 )
 
 const (
-	materialDir  = "1 - Source Material"
-	templatePath = "/Users/ajablonsky/repos/homelab/notes/templates/zettel.md"
+	mediaDir     = "1 - Media"
+	templateName = "zettel.md"
 )
 
-func checkMaterialType(materialType string) error {
-	switch materialType {
+var templatePath = config.Get().TemplatesPath + "/" + templateName
+
+func checkMediaType(mediaType string) error {
+	switch mediaType {
 	case "Article", "Book", "Podcast", "Video":
 		return nil
 	default:
-		return fmt.Errorf("material type must be: Article | Book | Podcast | Video")
+		return fmt.Errorf("media type must be: Article | Book | Podcast | Video")
 	}
 }
 
 func main() {
 	args := os.Args
 	if len(args) < 3 {
-		fmt.Println("Wrong arguments! Usage: material <material_type> <title>")
+		fmt.Println("Wrong arguments! Usage: media <media_type> <title>")
 		os.Exit(1)
 	}
 
 	caser := cases.Title(language.English)
-	materialType := caser.String(args[1])
-	err := checkMaterialType(materialType)
+	mediaType := caser.String(args[1])
+	err := checkMediaType(mediaType)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	materialType = materialType + "s"
+	mediaType = mediaType + "s"
 	title := strings.Join(args[2:], " ")
 
 	timestamp := time.Now().Format("2006-01-02 15:02")
 	noteName := title + ".md"
-	relativeNotePath := fmt.Sprintf("%s/%s/%s", materialDir, materialType, noteName)
+	relativeNotePath := fmt.Sprintf("%s/%s/%s", mediaDir, mediaType, noteName)
 
 	note.Create(relativeNotePath, templatePath, pongo2.Context{"title": title, "timestamp": timestamp})
 	note.Open(relativeNotePath)

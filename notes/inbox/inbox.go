@@ -6,14 +6,17 @@ import (
 	"strings"
 	"time"
 
+	"github.com/ajablonsk1/homelab/notes/config"
 	"github.com/ajablonsk1/homelab/notes/note"
 	"github.com/flosch/pongo2/v6"
 )
 
 const (
 	inboxDir     = "0 - Inbox"
-	templatePath = "/Users/ajablonsky/repos/homelab/notes/templates/inbox.md"
+	templateName = "inbox.md"
 )
+
+var templatePath = config.Get().TemplatesPath + "/" + templateName
 
 func main() {
 	args := os.Args

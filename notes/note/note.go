@@ -6,13 +6,14 @@ import (
 	"os"
 	"os/exec"
 
+	"github.com/ajablonsk1/homelab/notes/config"
 	"github.com/flosch/pongo2/v6"
 )
 
-const (
-	home             = "/Users/ajablonsky"
-	notesDir         = home + "/notes"
-	notesProjectPath = home + "/repos/homelab/notes"
+var (
+	notesDir         = config.Get().NotesPath
+	templatePath     = config.Get().TemplatesPath
+	notesProjectPath = templatePath + "/.."
 )
 
 func Create(relativeNotePath, templatePath string, context pongo2.Context) {

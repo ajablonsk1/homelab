@@ -8,15 +8,18 @@ import (
 	"strings"
 	"time"
 
+	"github.com/ajablonsk1/homelab/notes/config"
 	"github.com/ajablonsk1/homelab/notes/note"
 	"github.com/flosch/pongo2/v6"
 )
 
 const (
 	noteName      = "TODO.md"
-	templatePath  = "/Users/ajablonsky/repos/homelab/notes/templates/todo.md"
+	templateName  = "todo.md"
 	doneMarkerIdx = 3
 )
+
+var templatePath = config.Get().TemplatesPath + "/" + templateName
 
 func main() {
 	args := os.Args

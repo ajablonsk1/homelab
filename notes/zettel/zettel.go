@@ -6,14 +6,17 @@ import (
 	"strings"
 	"time"
 
+	"github.com/ajablonsk1/homelab/notes/config"
 	"github.com/ajablonsk1/homelab/notes/note"
 	"github.com/flosch/pongo2/v6"
 )
 
 const (
 	zettelDir    = "4 - Zettelkasten"
-	templatePath = "/Users/ajablonsky/repos/homelab/notes/templates/zettel.md"
+	templateName = "zettel.md"
 )
+
+var templatePath = config.Get().TemplatesPath + "/" + templateName
 
 func main() {
 	args := os.Args
