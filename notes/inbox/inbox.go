@@ -8,7 +8,6 @@ import (
 
 	"github.com/ajablonsk1/homelab/notes/config"
 	"github.com/ajablonsk1/homelab/notes/note"
-	"github.com/flosch/pongo2/v6"
 )
 
 const (
@@ -30,6 +29,13 @@ func main() {
 	noteName := timestamp + " - " + title + ".md"
 	relativeNotePath := inboxDir + "/" + noteName
 
-	note.Create(relativeNotePath, templatePath, pongo2.Context{"title": title, "timestamp": timestamp})
+	data := struct {
+		Title     string
+		Timestamp string
+	}{
+		Title:     title,
+		Timestamp: timestamp,
+	}
+	note.Create(relativeNotePath, templatePath, data)
 	note.Open(relativeNotePath)
 }

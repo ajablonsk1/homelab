@@ -1,6 +1,6 @@
-# {{ title }}
+# {{.Title }}
 
-Timestamp: {{ timestamp }}
+Timestamp: {{.Timestamp }}
 
 Status:
 

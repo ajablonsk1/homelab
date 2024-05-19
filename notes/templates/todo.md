@@ -1,1 +1,1 @@
-- [ ] {{ data }} ({{ timestamp }})
+- [ ] {{.Data }} ({{.Timestamp}})

@@ -10,7 +10,6 @@ import (
 
 	"github.com/ajablonsk1/homelab/notes/config"
 	"github.com/ajablonsk1/homelab/notes/note"
-	"github.com/flosch/pongo2/v6"
 )
 
 const (
@@ -108,7 +107,14 @@ func addTask(args []string) {
 	message := strings.Join(args[1:], " ")
 	timestamp := time.Now().Format("2006-01-02 15:02")
 
-	note.Append(noteName, templatePath, pongo2.Context{"data": message, "timestamp": timestamp})
+	data := struct {
+		Data      string
+		Timestamp string
+	}{
+		Data:      message,
+		Timestamp: timestamp,
+	}
+	note.Append(noteName, templatePath, data)
 }
 
 func printTasks() {

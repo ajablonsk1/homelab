@@ -1,13 +1,14 @@
 package note
 
 import (
+	"bytes"
 	"fmt"
+	"html/template"
 	"log"
 	"os"
 	"os/exec"
 
 	"github.com/ajablonsk1/homelab/notes/config"
-	"github.com/flosch/pongo2/v6"
 )
 
 var (
@@ -16,8 +17,8 @@ var (
 	notesProjectPath = templatePath + "/.."
 )
 
-func Create(relativeNotePath, templatePath string, context pongo2.Context) {
-	out, err := formatTemplate(templatePath, context)
+func Create(relativeNotePath, templatePath string, data interface{}) {
+	out, err := formatTemplate(templatePath, data)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -40,8 +41,8 @@ func Open(relativeNotePath string) {
 	}
 }
 
-func Append(relativeNotePath, templatePath string, context pongo2.Context) {
-	out, err := formatTemplate(templatePath, context)
+func Append(relativeNotePath, templatePath string, data interface{}) {
+	out, err := formatTemplate(templatePath, data)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -81,13 +82,17 @@ func Replace(relativeNotePath, content string) {
 	}
 }
 
-func formatTemplate(templatePath string, context pongo2.Context) (string, error) {
-	template := pongo2.Must(pongo2.FromFile(templatePath))
+func formatTemplate(templatePath string, data interface{}) (string, error) {
+	tmpl, err := template.ParseFiles(templatePath)
+	if err != nil {
+		return "", fmt.Errorf("encountered an error while parsing template: %s", err)
+	}
 
-	out, err := template.Execute(context)
+	var parsedContent bytes.Buffer
+	err = tmpl.Execute(&parsedContent, data)
 	if err != nil {
 		return "", fmt.Errorf("encountered an error while formatting template: %s", err)
 	}
 
-	return out, nil
+	return parsedContent.String(), nil
 }

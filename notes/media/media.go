@@ -8,7 +8,6 @@ import (
 
 	"github.com/ajablonsk1/homelab/notes/config"
 	"github.com/ajablonsk1/homelab/notes/note"
-	"github.com/flosch/pongo2/v6"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
@@ -51,6 +50,13 @@ func main() {
 	noteName := title + ".md"
 	relativeNotePath := fmt.Sprintf("%s/%s/%s", mediaDir, mediaType, noteName)
 
-	note.Create(relativeNotePath, templatePath, pongo2.Context{"title": title, "timestamp": timestamp})
+	data := struct {
+		Title     string
+		Timestamp string
+	}{
+		Title:     title,
+		Timestamp: timestamp,
+	}
+	note.Create(relativeNotePath, templatePath, data)
 	note.Open(relativeNotePath)
 }
